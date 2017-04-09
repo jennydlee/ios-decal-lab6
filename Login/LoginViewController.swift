@@ -15,20 +15,104 @@ class LoginViewController: UIViewController {
         static let backgroundColor: UIColor = UIColor(hue: 0.5389, saturation: 1, brightness: 0.92, alpha: 1.0)
         static let invalidEmailTitle = "Invalid username or password"
         static let invalidEmailMessage = "Please try again"
+        static let titlelabelcolor = UIColor.white
+        static let bounds: CGRect = UIScreen.main.bounds
+        static let textmargin: CGFloat = 15
+        static let verticalspace: CGFloat = 50
+        static let buttonTextSize: CGFloat = 24
+        static let buttonMargin: CGFloat = 35
+        static let buttonHeight: CGFloat = 100
+        static let bottomButtonMargin: CGFloat = 50
+        
     }
-
-    // TODO: instantiate the views needed for your project
+    
+    var titlelabel: UILabel = {
+        let newlabel = UILabel()
+        newlabel.text = "Login View Controller"
+        newlabel.font = newlabel.font.withSize(50)
+        newlabel.textColor = .white
+        newlabel.numberOfLines = 2
+        newlabel.textAlignment = .center
+        return newlabel
+    }()
+    
+    var newview: UIView = {
+        let secondview = UIView()
+        secondview.backgroundColor = .white
+        secondview.layer.cornerRadius = 10
+        secondview.layer.masksToBounds = true
+        return secondview
+    }()
+    
+    var loginButton: UIButton = {
+        let newButton = UIButton()
+        newButton.backgroundColor = Constants.backgroundColor
+        newButton.setTitle("Login", for: .normal)
+        newButton.setTitleColor(.white, for: .normal)
+        newButton.layer.cornerRadius = 10
+        newButton.layer.masksToBounds = true
+        return newButton
+    }()
+    
+    var emailtext: UITextField = {
+        let etext = UITextField()
+        etext.placeholder = "berkeley.edu account"
+        return etext
+    }()
+    
+    var passwordtext: UITextField = {
+        let ptext = UITextField()
+        ptext.placeholder = "Password"
+        return ptext
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Constants.backgroundColor
-        
-        // TODO: Add your views either as subviews of `view` or subviews of each other using `addSubview`
-        
-        // TODO: layout your views using frames or AutoLayout
+        view.addSubview(newview)
+        view.addSubview(titlelabel)
+        newview.addSubview(emailtext)
+        newview.addSubview(passwordtext)
+        newview.addSubview(loginButton)
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchDown)
+        setupConstraints()
     }
-    
-    // TODO: create an IBAction for your login button
+
+    @IBAction func loginButtonPressed(sender: UIButton) {
+        authenticateUser(username: emailtext.text, password: passwordtext.text)
+    }
+
+    func setupConstraints() {
+        emailtext.translatesAutoresizingMaskIntoConstraints = false
+        passwordtext.translatesAutoresizingMaskIntoConstraints = false
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        newview.translatesAutoresizingMaskIntoConstraints = false
+        titlelabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        newview.center = view.center
+        newview.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        newview.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        newview.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.35).isActive = true
+        newview.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
+        
+        titlelabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        titlelabel.widthAnchor.constraint(equalTo: newview.widthAnchor).isActive = true
+        titlelabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        
+        passwordtext.leadingAnchor.constraint(equalTo: newview.leadingAnchor, constant: Constants.textmargin).isActive = true
+        passwordtext.trailingAnchor.constraint(equalTo: newview.trailingAnchor, constant: -Constants.textmargin).isActive = true
+        passwordtext.bottomAnchor.constraint(lessThanOrEqualTo: loginButton.topAnchor, constant: -Constants.verticalspace).isActive = true
+        
+        emailtext.centerXAnchor.constraint(equalTo: passwordtext.centerXAnchor).isActive = true
+        emailtext.widthAnchor.constraint(equalTo: passwordtext.widthAnchor).isActive = true
+        emailtext.bottomAnchor.constraint(equalTo: passwordtext.topAnchor, constant: -Constants.verticalspace).isActive = true
+        emailtext.topAnchor.constraint(equalTo: newview.topAnchor, constant: Constants.verticalspace + 3).isActive = true
+        
+        loginButton.centerXAnchor.constraint(equalTo: newview.centerXAnchor).isActive = true
+        loginButton.bottomAnchor.constraint(equalTo: newview.bottomAnchor, constant: -Constants.verticalspace).isActive = true
+        loginButton.heightAnchor.constraint(equalToConstant: Constants.buttonHeight).isActive = true
+        loginButton.widthAnchor.constraint(equalTo: newview.widthAnchor, multiplier: 0.65).isActive = true
+     }
     
     
     
